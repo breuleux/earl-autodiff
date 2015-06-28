@@ -14,6 +14,7 @@ Usage:
     autodiff cube(x) =
        x ** 3
 
-    print cube(10)               ;; 1000
-    print cube.derivative-f(10)  ;; 300
+    print cube(10)                            ;; 1000
+    print cube.derivative-f(10)               ;; 300
+    print cube.derivative-f.derivative-f(10)  ;; 60
 
