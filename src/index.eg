@@ -1,0 +1,53 @@
+
+require: "ad.js" as _ad
+ad = _ad{{=}}
+
+provide = ad
+provide: autodiff
+
+macro{ad} autodiff{ctx, x} =
+
+   let {=> ad} = @deps
+   {add, sub, mul, div, exp, let Math
+    eq, lt, gt, leq, geq} = @mark{
+      `+`, `-`, `*`, `/`, `**`, `Math`
+      `==`, `<`, `>`, `<=`, `>=`
+   }
+
+   tr{body} =
+      ```
+      let ad = ^ad
+      let ^Math = ad.maths
+      let raw-symbol{^add}{x, y} = ad.add{x, y}
+      let raw-symbol{^sub}{x, y} = ad.sub{x, y}
+      let raw-symbol{^mul}{x, y} = ad.mul{x, y}
+      let raw-symbol{^div}{x, y} = ad.div{x, y}
+      let raw-symbol{^exp}{x, y} = ad.maths.pow{x, y}
+      let raw-symbol{^eq}{x, y} = ad.eq{x, y}
+      let raw-symbol{^lt}{x, y} = ad.lt{x, y}
+      let raw-symbol{^gt}{x, y} = ad.gt{x, y}
+      let raw-symbol{^leq}{x, y} = ad.leq{x, y}
+      let raw-symbol{^geq}{x, y} = ad.geq{x, y}
+      [null, ^body]
+      ```
+
+   @multimacro with {
+      project{match expr} =
+         `_lambda{^args, ^pre, ^body, ^post, ^gen}` ->
+            print .wat
+            `_lambda{^args, ^pre, ^tr{body}, ^post, ^gen}`
+         `^args -> ^body` ->
+            print .fuck
+            `^args -> ^tr{body}`
+         else ->
+            print expr
+            throw E.syntax.invalid-reactive{"invalid", node = expr}
+   }
+
+Function.prototype &: {
+   derivative-f{x} = ad.derivative-f{this}{x}
+   gradient-f{x} = ad.gradient-f{this}{x}
+   derivative-r{x} = ad.derivative-r{this}{x}
+   gradient-r{x} = ad.gradient-r{this}{x}
+}
+

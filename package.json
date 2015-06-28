@@ -1,0 +1,30 @@
+{
+  "name": "earl-autodiff",
+  "version": "0.0.1",
+  "description": "Auto-differentiation macros for Earl Grey",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "earl compile -5rvso lib/ src/",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/breuleux/earl-autodiff"
+  },
+  "keywords": [
+    "Autodiff"
+  ],
+  "author": "Olivier Breuleux",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/breuleux/earl-autodiff/issues"
+  },
+  "homepage": "https://github.com/breuleux/earl-autodiff",
+  "dependencies": {
+    "ad.js": "^1.1.2",
+    "earlgrey-runtime": ">=0.0.7"
+  },
+  "devDependencies": {
+    "earlgrey": ">=0.0.7"
+  }
+}
